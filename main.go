@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"ecommerce/cmd"
+	"fmt"
+)
 
 func main() {
 	fmt.Println("Hello, World!")
+	cmd.ServerGo()
 }
