@@ -2,7 +2,7 @@ package domain
 
 import "time"
 
-type ProductList struct {
+type Product struct {
 	ID          uint      `json:"id" gorm:"primaryKey;autoIncrement"`
 	Title       string    `json:"title" gorm:"type:varchar(255);not null"`
 	Description string    `json:"description" gorm:"type:text"`
