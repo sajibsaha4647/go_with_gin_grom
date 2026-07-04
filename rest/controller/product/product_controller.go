@@ -1,24 +1,23 @@
 package product
 
-import "net/http"
+import "github.com/gin-gonic/gin"
 
-func (p *ProductHandler) createProduct(w http.ResponseWriter, r *http.Request) {}
+func (p *ProductHandler) CreateProduct(c *gin.Context) {}
 
-func (p *ProductHandler) getProductByID(w http.ResponseWriter, r *http.Request) {
+func (p *ProductHandler) GetProductByID(c *gin.Context) {
 }
 
-func (p *ProductHandler) getAllProducts(w http.ResponseWriter, r *http.Request) {
-
-}
-
-func (p *ProductHandler) updateProduct(w http.ResponseWriter, r *http.Request) {
+func (p *ProductHandler) GetAllProducts(c *gin.Context) {
 
 }
 
-func (p *ProductHandler) deleteProduct(w http.ResponseWriter, r *http.Request) {
+func (p *ProductHandler) UpdateProduct(c *gin.Context) {
 
 }
 
-func (p *ProductHandler) rowCount(w http.ResponseWriter, r *http.Request) {
+func (p *ProductHandler) DeleteProduct(c *gin.Context) {
+}
+
+func (p *ProductHandler) RowCount(c *gin.Context) {
 
 }

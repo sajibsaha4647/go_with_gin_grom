@@ -10,3 +10,4 @@ type ProductHandler struct {
 func NewProductHandler(repo product.ProductServe) *ProductHandler {
 	return &ProductHandler{repo: repo}
 }
+

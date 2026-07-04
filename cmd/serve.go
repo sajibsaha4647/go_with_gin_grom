@@ -3,6 +3,7 @@ package cmd
 import (
 	"ecommerce/config"
 	"ecommerce/infra"
+	"ecommerce/rest"
 	"fmt"
 	"log"
 )
@@ -27,5 +28,9 @@ func ServerGo() {
 
 	fmt.Println(cfg.Port)
 	fmt.Println(cfg.JWTSecret)
+
+	
+
+	rest.NewServer(nil, nil).Start(cfg)
 
 }
