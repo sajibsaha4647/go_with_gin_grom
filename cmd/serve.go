@@ -3,7 +3,11 @@ package cmd
 import (
 	"ecommerce/config"
 	"ecommerce/infra"
+	"ecommerce/product"
 	"ecommerce/rest"
+	productctrl "ecommerce/rest/controller/product"
+	userctrl "ecommerce/rest/controller/user"
+	"ecommerce/user"
 	"fmt"
 	"log"
 )
@@ -29,8 +33,14 @@ func ServerGo() {
 	fmt.Println(cfg.Port)
 	fmt.Println(cfg.JWTSecret)
 
-	
+	userRepository := user.NewUserRepository(db)
+	userService := user.NewUserService(userRepository)
+	userHandler := userctrl.NewUserHandler(userService)
 
-	rest.NewServer(nil, nil).Start(cfg)
+	productRepository := product.NewProductRepository(db)
+	productService := product.NewProductService(productRepository)
+	productHandler := productctrl.NewProductHandler(productService)
+
+	rest.NewServer(productHandler, userHandler).Start(cfg)
 
 }
