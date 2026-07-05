@@ -4,6 +4,9 @@ import (
 	"ecommerce/config"
 	"ecommerce/rest/controller/product"
 	"ecommerce/rest/controller/user"
+	"ecommerce/rest/middleware"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
@@ -20,6 +23,15 @@ func NewServer(productHandler *product.ProductHandler, userHandler *user.UserHan
 
 func (s *Server) Start(cfg *config.Config) {
 
-	
+	server := gin.Default()
+
+	setMiddleware := middleware.NewMiddlewareManager()
+
+	setMiddleware.Use(
+		middleware.LoggerMiddleware(),
+		middleware.CORSMiddleware(),
+	)
+
+	server.Use(setMiddleware.Middlewares()...)
 
 }
