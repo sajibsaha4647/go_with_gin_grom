@@ -21,7 +21,7 @@ func checkPasswordHash(password, hash string) bool {
 	return err == nil
 }
 
-func IsValidEmail(email string) bool {
+func IsValidEmail(email string) bool { //if true, then valid email address
 	_, err := mail.ParseAddress(email)
 	return err == nil
 }
