@@ -33,6 +33,12 @@ func ServerGo() {
 	fmt.Println(cfg.Port)
 	fmt.Println(cfg.JWTSecret)
 
+	err = infra.AutoMigrate(db)
+	if err != nil {
+		log.Fatal(err)
+		log.Println("Database migration failed!")
+	}
+
 	userRepository := user.NewUserRepository(db)
 	userService := user.NewUserService(userRepository)
 	userHandler := userctrl.NewUserHandler(userService)
