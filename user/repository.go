@@ -9,10 +9,23 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
+// FindByEmail implements [UserPort].
+func (u *UserRepository) FindByEmail(email string) (*domain.User, error) {
+	var user domain.User
+	err := u.db.Where("email = ?", email).First(&user).Error
+	return &user, err
+}
+
 func NewUserRepository(db *gorm.DB) UserPort {
 	return &UserRepository{db: db}
 }
 
+func (u *UserRepository) ExistsByEmail(email string) (bool, error) {
+	var count int64
+	var user domain.User
+	err := u.db.Model(&user).Where("email = ?", email).Count(&count).Error
+	return count > 0, err
+}
 
 // createUser implements [UserPort].
 func (u *UserRepository) createUser(user domain.User) error {
@@ -47,4 +60,3 @@ func (u *UserRepository) rowCount() (int64, error) {
 func (u *UserRepository) updateUser(id string, user domain.User) error {
 	return u.db.Model(&domain.User{}).Where("id = ?", id).Updates(user).Error
 }
-

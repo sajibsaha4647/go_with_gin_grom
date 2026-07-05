@@ -9,4 +9,7 @@ type UserPort interface {
 	updateUser(id string, user domain.User) error
 	deleteUser(id string) error
 	rowCount() (int64, error)
+	FindByEmail(email string) (*domain.User, error)
+	ExistsByEmail(email string) (bool, error)
+	
 }

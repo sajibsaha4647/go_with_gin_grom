@@ -9,10 +9,22 @@ type UserServe interface {
 	updateUser(id string, user domain.User) error
 	deleteUser(id string) error
 	rowCount() (int64, error)
+	findByEmail(email string) (*domain.User, error)
+	existsByEmail(email string) (bool, error)
 }
 
 type userService struct {
 	repository UserPort
+}
+
+// findByEmail implements [UserServe].
+func (u *userService) findByEmail(email string) (*domain.User, error) {
+	return u.repository.FindByEmail(email)
+}
+
+// existsByEmail implements [UserServe].
+func (u *userService) existsByEmail(email string) (bool, error) {
+	return u.repository.ExistsByEmail(email)
 }
 
 func NewUserService(repository UserPort) UserServe {
@@ -48,5 +60,3 @@ func (u *userService) updateUser(id string, user domain.User) error {
 func (u *userService) userlist() ([]domain.User, error) {
 	return u.repository.getAllUsers()
 }
-
-
