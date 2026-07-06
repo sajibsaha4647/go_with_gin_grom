@@ -10,6 +10,39 @@ import (
 
 func (h *UserHandler) Login(c *gin.Context) {
 
+	var req dto.LoginRequest
+
+	if !utils.BindAndValidate(c, &req) {
+		return
+	}
+
+	// 1. Validate email format
+	if !utils.IsValidEmail(req.Email) {
+		utils.SendError(c, 400, "invalid email address")
+		return
+	}
+
+	// 2. Check if user exists
+	user, err := h.repo.FindByEmail(req.Email)
+	if err != nil {
+		utils.SendError(c, 404, "Email not found")
+		return
+	}
+
+	if user == nil {
+		utils.SendError(c, 400, "Invalid email or password")
+		return
+	}
+
+	// 3. Verify password
+	if !utils.CheckPasswordHash(req.Password, user.Password) {
+		utils.SendError(c, 400, "Invalid email or password")
+		return
+	}
+
+	user.Password = ""
+
+	utils.SendSuccess(c, 200, "Login successful", user)
 }
 
 func (h *UserHandler) register(c *gin.Context) {
@@ -67,7 +100,24 @@ func (h *UserHandler) register(c *gin.Context) {
 
 }
 
-func (h *UserHandler) singleUser(c *gin.Context) {}
+func (h *UserHandler) singleUser(c *gin.Context) {
+
+	idStr := c.Param("id")
+
+	// id, err := strconv.ParseUint(idStr, 10, 32)
+	// if err != nil {
+	// 	utils.SendError(c, 400, "Invalid user id")
+	// 	return
+	// }
+
+	user, err := h.repo.SingleUser(idStr)
+	if err != nil {
+		utils.SendError(c, 404, "User not found")
+		return
+	}
+
+	utils.SendSuccess(c, 200, "User found", user)
+}
 
 func (h *UserHandler) userlist(c *gin.Context) {}
 
