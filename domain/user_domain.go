@@ -6,6 +6,7 @@ import (
 
 type User struct {
 	ID        uint      `json:"id" gorm:"primaryKey;autoIncrement"`
+	Image	 string    `json:"image" gorm:"type:varchar(255);default:'default.png'"`
 	Name      string    `json:"name" gorm:"type:varchar(100);not null"`
 	Email     string    `json:"email" gorm:"type:varchar(255);unique;not null;index"`
 	Password  string    `json:"password" gorm:"type:varchar(255);not null"`
