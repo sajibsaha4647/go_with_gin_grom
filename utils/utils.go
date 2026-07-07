@@ -2,8 +2,15 @@ package utils
 
 import (
 	"ecommerce/domain"
+	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
 	"net/mail"
+	"os"
+	"path/filepath"
+	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -54,4 +61,49 @@ func BindAndValidate[T any](c *gin.Context, input *T) bool {
 		return false
 	}
 	return true
+}
+
+func UploadImageFile(c *gin.Context, file *multipart.FileHeader, folder string) (string, error) {
+
+	//uploads/product
+	uploadPath := filepath.Join("uploads", folder)
+
+	// Automatically create folder if it doesn't exist
+
+	err := os.MkdirAll(uploadPath, os.ModePerm)
+	if err != nil {
+		return "", err
+	}
+
+	// Validate extension
+	ext := strings.ToLower(filepath.Ext(file.Filename))
+	if ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".webp" {
+		return "", fmt.Errorf("only jpg, jpeg, png and webp are allowed")
+	}
+
+	// Generate unique filename
+	filename := fmt.Sprintf("%d%s", time.Now().Unix(), ext)
+
+	// uploads/products/xxxxx.jpg
+	dst := filepath.Join(uploadPath, filename)
+
+	src, err := file.Open()
+	if err != nil {
+		return "", err
+	}
+	defer src.Close()
+
+	out, err := os.Create(dst)
+	if err != nil {
+		return "", err
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, src)
+	if err != nil {
+		return "", err
+	}
+
+	return filename, nil
+
 }

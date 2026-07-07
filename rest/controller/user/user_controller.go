@@ -2,7 +2,7 @@ package user
 
 import (
 	"ecommerce/domain"
-	"ecommerce/dto"
+	dto "ecommerce/dto/user_request"
 	"ecommerce/utils"
 	"fmt"
 	"path"

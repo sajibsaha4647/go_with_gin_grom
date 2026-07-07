@@ -1,8 +1,28 @@
 package product
 
-import "github.com/gin-gonic/gin"
+import (
+	"ecommerce/dto/productRequest"
 
-func (p *ProductHandler) CreateProduct(c *gin.Context) {}
+	"github.com/gin-gonic/gin"
+)
+
+func (p *ProductHandler) CreateProduct(c *gin.Context) {
+
+	var req productRequest.ProductCreateRequest
+
+	if !BindAndValidate(c, &req) {
+		return
+	}
+
+	
+
+
+
+}
+
+func BindAndValidate(c *gin.Context, productCreateRequest *productRequest.ProductCreateRequest) bool {
+	panic("unimplemented")
+}
 
 func (p *ProductHandler) GetProductByID(c *gin.Context) {
 }

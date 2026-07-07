@@ -1,9 +1,8 @@
-package domain
+package productRequest
 
 import "time"
 
-type Product struct {
-	ID          uint      `json:"id" gorm:"primaryKey;autoIncrement"`
+type ProductCreateRequest struct {
 	Title       string    `json:"title" gorm:"type:varchar(255);not null"`
 	Description string    `json:"description" gorm:"type:text"`
 	Price       float64   `json:"price" gorm:"type:numeric(10,2);not null;default:0.00"`
