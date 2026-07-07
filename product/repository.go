@@ -30,9 +30,26 @@ func (r *ProductRepository) getAllProducts() ([]domain.Product, error) {
 	return products, err
 }
 
-func (r *ProductRepository) updateProduct(id string, product domain.Product) error {
-	return r.db.Model(&product).Where("id = ?", id).Updates(product).Error
+func (r *ProductRepository) updateProduct(id string, product domain.Product) (domain.Product, error) {
+	err := r.db.Model(&product).Where("id = ?", id).Updates(product).Error
+	if err != nil{
+		return domain.Product{}, err
+	}
+	return product, nil
 }
+
+// func (r *ProductRepository) UpdateProduct(id string, product domain.Product) (domain.Product, error) {
+
+// 	err := r.db.Model(&domain.Product{}).
+// 		Where("id = ?", id).
+// 		Updates(product).Error
+
+// 	if err != nil {
+// 		return domain.Product{}, err
+// 	}
+
+// 	return product, nil
+// }
 
 func (r *ProductRepository) deleteProduct(id string) error {
 	var product domain.Product

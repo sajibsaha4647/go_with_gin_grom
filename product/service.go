@@ -6,7 +6,7 @@ type ProductServe interface {
 	Store(product *domain.Product) error
 	SingleProduct(id string) (domain.Product, error)
 	Productlist() ([]domain.Product, error)
-	UpdateProduct(id string, product domain.Product) error
+	UpdateProduct(id string, product domain.Product) (domain.Product,error)
 	DeleteProduct(id string) error
 	RowCount() (int64, error)
 }
@@ -49,7 +49,7 @@ func (p *productService) Store(product *domain.Product) error {
 
 
 // updateProduct implements [ProductServe].
-func (p *productService) UpdateProduct(id string, product domain.Product) error {
+func (p *productService) UpdateProduct(id string, product domain.Product)( domain.Product, error) {
 	return p.repository.updateProduct(id, product)
 }
 
