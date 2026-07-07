@@ -14,7 +14,7 @@ func NewProductRepository(db *gorm.DB) ProductPort { //in this way interface her
 	return &ProductRepository{db: db}
 }
 
-func (r *ProductRepository) createProduct(product domain.Product) error {
+func (r *ProductRepository) createProduct(product *domain.Product) error {
 	return r.db.Create(&product).Error
 }
 

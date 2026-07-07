@@ -63,7 +63,7 @@ func BindAndValidate[T any](c *gin.Context, input *T) bool {
 	return true
 }
 
-func UploadImageFile(c *gin.Context, file *multipart.FileHeader, folder string) (string, error) {
+func UploadImageFile(file *multipart.FileHeader, folder string) (string, error) {
 
 	//uploads/product
 	uploadPath := filepath.Join("uploads", folder)
