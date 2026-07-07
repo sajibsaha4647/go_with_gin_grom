@@ -13,7 +13,7 @@ import (
 func (p *ProductHandler) CreateProduct(c *gin.Context) {
 
 	var req productRequest.ProductCreateRequest
-	if !utils.BindAndValidate(c, &req) {
+	if !utils.BindAndValidateFromData(c, &req) {
 		return
 	}
 

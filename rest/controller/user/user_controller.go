@@ -45,7 +45,12 @@ func (h *UserHandler) Login(c *gin.Context) {
 
 	user.Password = ""
 
-	utils.SendSuccess(c, 200, "Login successful", user)
+	token, err := utils.GenerateToken(user, h.cfg.JWTSecret)
+	if err != nil {
+		utils.SendError(c, 400, "invalid token or expire")
+	}
+
+	utils.SendLoginSuccess(c, 200, "Login successful", user, token)
 }
 
 func (h *UserHandler) register(c *gin.Context) {

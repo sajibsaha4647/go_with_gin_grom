@@ -54,8 +54,26 @@ func SendSuccess(c *gin.Context, statusCode int, message string, data any) {
 	})
 }
 
+func SendLoginSuccess(c *gin.Context, statusCode int, message string, data any, token string) {
+	c.JSON(statusCode, domain.ResponseLogin{
+		Message: message,
+		Status:  statusCode,
+		Data:    data,
+		Token:   token,
+	})
+}
+
 func BindAndValidate[T any](c *gin.Context, input *T) bool {
 	if err := c.ShouldBindJSON(input); err != nil {
+		// Explicitly calling it from the utils package
+		SendError(c, http.StatusBadRequest, err.Error())
+		return false
+	}
+	return true
+}
+
+func BindAndValidateFromData[T any](c *gin.Context, input *T) bool {
+	if err := c.ShouldBind(input); err != nil {
 		// Explicitly calling it from the utils package
 		SendError(c, http.StatusBadRequest, err.Error())
 		return false

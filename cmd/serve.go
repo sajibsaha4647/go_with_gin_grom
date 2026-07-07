@@ -41,7 +41,7 @@ func ServerGo() {
 
 	userRepository := user.NewUserRepository(db)
 	userService := user.NewUserService(userRepository)
-	userHandler := userctrl.NewUserHandler(userService)
+	userHandler := userctrl.NewUserHandler(userService,cfg)
 
 	productRepository := product.NewProductRepository(db)
 	productService := product.NewProductService(productRepository)

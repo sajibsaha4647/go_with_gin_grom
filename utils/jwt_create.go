@@ -14,7 +14,7 @@ type CustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateToken(user domain.User, secretKey string) (string, error) {
+func GenerateToken(user *domain.User, secretKey string) (string, error) {
 
 	claim := CustomClaims{
 		UserID:   user.ID,
