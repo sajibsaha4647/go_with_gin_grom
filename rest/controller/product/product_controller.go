@@ -6,6 +6,7 @@ import (
 	"ecommerce/utils"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -61,7 +62,22 @@ func (p *ProductHandler) GetProductByID(c *gin.Context) {
 
 func (p *ProductHandler) GetAllProducts(c *gin.Context) {
 
-	userList, err := p.repo.Productlist()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+
+	total, err := p.repo.RowCount()
+	if err != nil {
+		utils.SendError(c, 400, "Row count error")
+	}
+
+	pagination := domain.Pagination{
+		Page:  int64(page),
+		Limit: int64(limit),
+	}
+
+	pagination.CalculatePages(total)
+
+	userList, err := p.repo.Productlist(&pagination)
 	if err != nil {
 		utils.SendError(c, 400, "No product found")
 		return

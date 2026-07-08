@@ -5,7 +5,7 @@ import "ecommerce/domain"
 type ProductServe interface {
 	Store(product *domain.Product) error
 	SingleProduct(id string) (domain.Product, error)
-	Productlist() ([]domain.Product, error)
+	Productlist(pagination *domain.Pagination) ([]domain.Product, error)
 	UpdateProduct(id string, product domain.Product) (domain.Product,error)
 	DeleteProduct(id string) error
 	RowCount() (int64, error)
@@ -27,8 +27,8 @@ func (p *productService) DeleteProduct(id string) error {
 	
 
 // productlist implements [ProductServe].
-func (p *productService) Productlist() ([]domain.Product, error) {
-	return p.repository.getAllProducts()
+func (p *productService) Productlist(pagination *domain.Pagination) ([]domain.Product, error) {
+	return p.repository.getAllProducts(pagination)
 }
 
 // rowCount implements [ProductServe].

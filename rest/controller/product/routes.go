@@ -17,9 +17,9 @@ func (h *ProductHandler) RegisterProductRoutes(router *gin.Engine, cfg *config.C
 		middleware.AuthenticationMiddleware(cfg.JWTSecret),
 	)
 
-	product.GET("/", h.GetAllProducts)
+	product.GET("/allProduct", h.GetAllProducts)
 	product.GET("/:id", h.GetProductByID)
-	product.POST("/", h.CreateProduct)
+	product.POST("/create", h.CreateProduct)
 	product.PUT("/:id", h.UpdateProduct)
 	product.DELETE("/:id", h.DeleteProduct)
 	product.GET("/count", h.RowCount)

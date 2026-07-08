@@ -24,15 +24,18 @@ func (r *ProductRepository) getProductByID(id string) (domain.Product, error) {
 	return product, err
 }
 
-func (r *ProductRepository) getAllProducts() ([]domain.Product, error) {
+func (r *ProductRepository) getAllProducts(pagination *domain.Pagination) ([]domain.Product, error) {
 	var products []domain.Product
-	err := r.db.Find(&products).Error
+	err := r.db.
+		Limit(pagination.GetLimit()).
+		Offset(pagination.GetOffset()).
+		Find(&products).Error
 	return products, err
 }
 
 func (r *ProductRepository) updateProduct(id string, product domain.Product) (domain.Product, error) {
 	err := r.db.Model(&product).Where("id = ?", id).Updates(product).Error
-	if err != nil{
+	if err != nil {
 		return domain.Product{}, err
 	}
 	return product, nil
